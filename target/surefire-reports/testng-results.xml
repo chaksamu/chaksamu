@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2021-09-29T19:28:43 IST" name="Suite" finished-at="2021-09-29T19:29:44 IST" duration-ms="60629">
+    <groups>
+    </groups>
+    <test started-at="2021-09-29T19:28:43 IST" name="Test" finished-at="2021-09-29T19:29:44 IST" duration-ms="60629">
+      <class name="com.syniverse.HomepageTitleTest">
+        <test-method signature="loginPageTitleTest()[pri:0, instance:com.syniverse.HomepageTitleTest@2c34f934]" started-at="2021-09-29T19:29:02 IST" name="loginPageTitleTest" finished-at="2021-09-29T19:29:44 IST" duration-ms="41612" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- loginPageTitleTest -->
+      </class> <!-- com.syniverse.HomepageTitleTest -->
+      <class name="com.syniverse.LoginTitleTest">
+        <test-method signature="loginPageTitleTest()[pri:0, instance:com.syniverse.LoginTitleTest@55ca8de8]" started-at="2021-09-29T19:28:43 IST" name="loginPageTitleTest" finished-at="2021-09-29T19:29:02 IST" duration-ms="18959" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- loginPageTitleTest -->
+      </class> <!-- com.syniverse.LoginTitleTest -->
+    </test> <!-- Test -->
+  </suite> <!-- Suite -->
+</testng-results>
