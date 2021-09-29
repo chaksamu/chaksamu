@@ -1,6 +1,8 @@
 package com.syniverse;
 
 import java.util.ResourceBundle;
+import java.awt.*;
+import java.io.*;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
