@@ -16,7 +16,7 @@ public class HomepageTitleTest {
 			public void loginPageTitleTest() {
 				// TODO Auto-generated method stub
 				//System.setProperty("webdriver.chrome.driver", "C:\\Users\\g706427\\Box Sync\\eclipse\\chromedriver.exe");
-				//System.setProperty("java.awt.headless", "true");
+				System.setProperty("java.awt.headless", "false");
 				ResourceBundle rb = ResourceBundle.getBundle("config");
 				String url = rb.getString("url");
 				String uname = rb.getString("username");
