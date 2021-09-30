@@ -33,7 +33,7 @@ public class HomepageTitleTest {
 				driver.findElement(By.id("log-in-button")).click();
 				//driver.findElement(By.cssSelector("input[type='submit']")).click();
 				String title_h = driver.getTitle();
-				Assert.assertEquals(title_h,"MySyniverse Portal");
+				Assert.assertEquals(title_h,"Your Work - CodePen");
 				System.out.println(title_h);
 				driver.close();			
 			}
