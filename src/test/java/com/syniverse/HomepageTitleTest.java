@@ -15,7 +15,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class HomepageTitleTest {
 	//static String URL = "https://mysyniverse.syniverse.com/";
 			@Test
-			public void HpageTitleTest() {
+			public void HpageTitleTest() throws InterruptedException {
 				// TODO Auto-generated method stub
 				//System.setProperty("webdriver.chrome.driver", "C:\\Users\\g706427\\Box Sync\\eclipse\\chromedriver.exe");
 				System.setProperty("java.awt.headless", "false");
@@ -31,10 +31,12 @@ public class HomepageTitleTest {
 				driver.findElement(By.id("login-email-field")).sendKeys(uname);
 				driver.findElement(By.id("login-password-field")).sendKeys(passwd);
 				driver.findElement(By.id("log-in-button")).click();
+				Thread.sleep(3000);
 				//driver.findElement(By.cssSelector("input[type='submit']")).click();
 				String title_h = driver.getTitle();
-				Assert.assertEquals(title_h,"Your Work - CodePen");
+				Assert.assertEquals(title_h,"Trending - CodePen");
 				System.out.println(title_h);
-				driver.close();			
+				driver.close();	
+				driver.quit();
 			}
 }

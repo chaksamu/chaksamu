@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: TestSuite
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 61.435 s - in TestSuite
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 32.737 s <<< FAILURE! - in TestSuite
+com.syniverse.HomepageTitleTest.HpageTitleTest  Time elapsed: 13.944 s  <<< FAILURE!
+java.lang.AssertionError: expected [Trending - CodePen] but found [CodePen Login]
+	at com.syniverse.HomepageTitleTest.HpageTitleTest(HomepageTitleTest.java:36)
+

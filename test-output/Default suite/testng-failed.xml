@@ -5,7 +5,7 @@
     <classes>
       <class name="com.syniverse.HomepageTitleTest">
         <methods>
-          <include name="loginPageTitleTest"/>
+          <include name="HpageTitleTest"/>
         </methods>
       </class> <!-- com.syniverse.HomepageTitleTest -->
     </classes>
