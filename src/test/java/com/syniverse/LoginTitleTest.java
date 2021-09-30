@@ -26,7 +26,7 @@ public class LoginTitleTest {
 			//driver.get("https://mysyniverse.syniverse.com");
 			driver.get(url);
 			String title_l = driver.getTitle();
-			Assert.assertEquals(title_l,"Portal Login");
+			Assert.assertEquals(title_l,"CodePen Login");
 			System.out.println(title_l);
 			driver.close();
 		}
