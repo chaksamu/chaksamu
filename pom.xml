@@ -3,10 +3,10 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.syniverse</groupId>
   <artifactId>maven.testng.selenium.jenkins</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.3-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>DemoProject</name>
-    <build>
+  <name>DemoProject</name>  
+   <build>
     <pluginManagement>
   		<plugins>  		
   			<plugin>
@@ -27,7 +27,65 @@
           			</suiteXmlFiles>
         		</configuration>
       		</plugin>
-  		</plugins>
+      		<plugin>
+      			<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-deploy-plugin</artifactId>
+        		<version>3.0.0-M1</version>
+      		</plugin>
+  			<plugin>
+        		<groupId>org.sonarsource.scanner.maven</groupId>
+       			<artifactId>sonar-maven-plugin</artifactId>
+        		<version>3.9.0.2155</version>
+      		</plugin>
+      		<plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
+                <executions>
+                    <!-- Prepares the property pointing to the JaCoCo runtime agent which
+                        is passed as VM argument when Maven the Surefire plugin is executed. -->
+                    <execution>
+                    <!-- <id>pre-unit-agent</id> -->
+                        <id>pre-unit-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                      <!--    <configuration>
+                             Sets the name of the property containing the settings for JaCoCo
+                                runtime agent. 
+                            <propertyName>surefireArgLine</propertyName>
+                        </configuration> -->
+                    </execution>
+                    <!-- Ensures that the code coverage report for unit tests is created
+                        after unit tests have been run. -->
+                    <execution>
+                    	<id>report</id>
+                    	<phase>prepare-package</phase>
+                    	<goals>
+                    		<goal>report</goal>
+                    	</goals>
+                    </execution>
+                    <execution>
+                        <id>post-unit-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Sets the output directory for the code coverage report. -->
+                            <dataFile>target/jacoco.exec</dataFile>
+                            <!-- <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>  -->
+                            <outputDirectory>target/jacoco-reports</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+                <!-- <configuration>
+                	<systemPropertyVariables>
+                		<jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>
+                	</systemPropertyVariables>
+                </configuration> -->
+            </plugin>
+      	</plugins>
   	</pluginManagement>
   </build>
   <dependencies>
@@ -49,6 +107,36 @@
 		    <groupId>io.github.bonigarcia</groupId>
 		    <artifactId>webdrivermanager</artifactId>
 		    <version>5.0.3</version>
-		</dependency>
+		</dependency>	
+		<!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+<dependency>
+    <groupId>org.jacoco</groupId>
+    <artifactId>jacoco-maven-plugin</artifactId>
+    <version>0.8.7</version>
+</dependency>
+		
     </dependencies>
-</project>
+    <distributionManagement>
+    	<repository>
+    		<id>nexus</id>
+    		<name>maven-release</name>
+    		<url>http://localhost:8081/repository/maven-releases/</url>
+    	</repository>
+    	<snapshotRepository>
+    		<id>nexus</id>
+    		<name>maven-snapshot</name>
+    		<url>http://localhost:8081/repository/maven-snapshots/</url>
+    	</snapshotRepository>
+    </distributionManagement>
+    <profiles>
+    	<profile>
+    		<id>sonar</id>
+    		<activation>
+    			<activeByDefault>true</activeByDefault>
+    		</activation>
+    		<properties>
+    			<sonar.host.url>http://localhost:9000</sonar.host.url>
+    		</properties>
+    	</profile>
+    </profiles>
+   </project>

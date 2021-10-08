@@ -2,22 +2,20 @@
 <testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2021-09-30T17:06:12 IST" name="Suite" finished-at="2021-09-30T17:07:21 IST" duration-ms="68455">
+  <suite started-at="2021-10-08T21:24:40 IST" name="Suite" finished-at="2021-10-08T21:24:40 IST" duration-ms="158">
     <groups>
     </groups>
-    <test started-at="2021-09-30T17:06:12 IST" name="Test" finished-at="2021-09-30T17:07:21 IST" duration-ms="68455">
-      <class name="com.syniverse.HomepageTitleTest">
-        <test-method signature="HpageTitleTest()[pri:0, instance:com.syniverse.HomepageTitleTest@12d3a4e9]" started-at="2021-09-30T17:06:43 IST" name="HpageTitleTest" finished-at="2021-09-30T17:07:21 IST" duration-ms="37524" status="PASS">
+    <test started-at="2021-10-08T21:24:40 IST" name="Test" finished-at="2021-10-08T21:24:40 IST" duration-ms="158">
+      <class name="com.syniverse.AppTest">
+        <test-method signature="testlogin1()[pri:0, instance:com.syniverse.AppTest@45dd4eda]" started-at="2021-10-08T21:24:40 IST" name="testlogin1" finished-at="2021-10-08T21:24:40 IST" duration-ms="34" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- HpageTitleTest -->
-      </class> <!-- com.syniverse.HomepageTitleTest -->
-      <class name="com.syniverse.LoginTitleTest">
-        <test-method signature="loginPageTitleTest()[pri:0, instance:com.syniverse.LoginTitleTest@2c34f934]" started-at="2021-09-30T17:06:12 IST" name="loginPageTitleTest" finished-at="2021-09-30T17:06:43 IST" duration-ms="30828" status="PASS">
+        </test-method> <!-- testlogin1 -->
+        <test-method signature="testlogin2()[pri:0, instance:com.syniverse.AppTest@45dd4eda]" started-at="2021-10-08T21:24:40 IST" name="testlogin2" finished-at="2021-10-08T21:24:40 IST" duration-ms="0" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- loginPageTitleTest -->
-      </class> <!-- com.syniverse.LoginTitleTest -->
+        </test-method> <!-- testlogin2 -->
+      </class> <!-- com.syniverse.AppTest -->
     </test> <!-- Test -->
   </suite> <!-- Suite -->
 </testng-results>
