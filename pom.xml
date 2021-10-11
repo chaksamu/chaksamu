@@ -6,6 +6,9 @@
   <version>0.0.3</version>
   <packaging>jar</packaging>
   <name>DemoProject</name>  
+       <properties>
+        <sonar.sources>src/main/java,src/main/test</sonar.sources>
+      </properties>
    <build>
     <pluginManagement>
   		<plugins>  		
