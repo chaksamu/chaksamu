@@ -10,19 +10,19 @@ pipeline {
             steps {
                 // Get some code from a GitHub repository
                 git 'https://github.com/chaksamu/chaksamu.git'
-			}
-		}
-    stage('Build') {
+            }
+        }
+        stage('Build') {
             steps {
-                bat 'mvn clean deploy -f maven.testng.selenium.jenkins/pom.xml'
-			}
-		}
-		stage('SonarQube analysis') {
+                bat "mvn clean deploy -f maven.testng.selenium.jenkins/pom.xml"
+            }
+        }
+        stage('SonarQube analysis') {
             steps {
                 withSonarQubeEnv('sonar') {
-                       bat 'mvn sonar:sonar -f maven.testng.selenium.jenkins/pom.xml'
+                       bat "mvn sonar:sonar -f maven.testng.selenium.jenkins/pom.xml"
                   }
             }
         }
-  	}
+      }
 }
