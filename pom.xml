@@ -7,7 +7,7 @@
   <packaging>jar</packaging>
   <name>DemoProject</name>  
        <properties>
-        <sonar.sources>src/main/java,src/main/test</sonar.sources>
+        <sonar.sources>src/main/java</sonar.sources>
       </properties>
    <build>
     <pluginManagement>
