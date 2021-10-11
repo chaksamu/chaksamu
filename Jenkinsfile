@@ -15,7 +15,7 @@ pipeline {
                 // sh "mvn -Dmaven.test.failure.ignore=true clean package"
 
                 // To run Maven on a Windows agent, use
-                bat "mvn -Dmaven.test.failure.ignore=true clean verify sonar:sonar -Dsonar.projectKey=maven.testng.selenium.jenkins -Dsonar.host.url=http://localhost:9000 -Dsonar.login=ede7ebb005b5b67523dddb260795553a23f9b9e7"
+                bat "mvn -Dmaven.test.failure.ignore=true clean verify"
             }
 
           //  post {
