@@ -10,22 +10,17 @@ pipeline {
             steps {
                 // Get some code from a GitHub repository
                 git 'https://github.com/chaksamu/chaksamu.git'
-
-                // Run Maven on a Unix agent.
-                // sh "mvn -Dmaven.test.failure.ignore=true clean package"
-
-                // To run Maven on a Windows agent, use
-                bat "mvn -Dmaven.test.failure.ignore=true clean verify sonar:sonar"
+			}
+		}
+		stage('build && SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('sonar') {
+                    // Optionally use a Maven environment you've configured already
+                    withMaven(maven:'maven-3.6.0') {
+                        bat 'mvn clean package sonar:sonar'
+                    }
+                }
             }
-
-          //  post {
-                // If Maven was able to run the tests, even if some of the test
-                // failed, record the test results and archive the jar file.
-            //    success {
-              //      junit '**/target/surefire-reports/TEST-*.xml'
-                //    archiveArtifacts 'target/*.jar'
-                //}
-           // }
         }
   	}
-  }
+}
