@@ -6,20 +6,22 @@ pipeline {
         maven "maven-3.6.0"
       }
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
                 // Get some code from a GitHub repository
                 git 'https://github.com/chaksamu/chaksamu.git'
 			}
 		}
-		stage('build && SonarQube analysis') {
+    stage('Build') {
+            steps {
+                bat 'mvn clean deploy' -f maven.testng.selenium.jenkins/pom.xml
+			}
+		}
+		stage('SonarQube analysis') {
             steps {
                 withSonarQubeEnv('sonar') {
-                    // Optionally use a Maven environment you've configured already
-                    withMaven(maven:'maven-3.6.0') {
-                        bat 'mvn clean package sonar:sonar'
-                    }
-                }
+                       bat 'mvn sonar:sonar' -f maven.testng.selenium.jenkins/pom.xml
+                  }
             }
         }
   	}
