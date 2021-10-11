@@ -14,13 +14,13 @@ pipeline {
         }
         stage('Build') {
             steps {
-                bat "mvn -s $MySettings clean deploy -f pom.xml"
+                bat "mvn clean deploy -f pom.xml"
             }                          //maven.testng.selenium.jenkins
         }
         stage('SonarQube analysis') {
             steps {
                 withSonarQubeEnv('sonar') {
-                       bat "mvn -s $MySettings  sonar:sonar -f pom.xml"
+                       bat "mvn sonar:sonar -f pom.xml"
                   }
             }
         }
