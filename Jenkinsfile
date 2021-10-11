@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                bat "mvn clean deploy -f pom.xml"
+                bat "mvn clean verify -f pom.xml"
             }                          //maven.testng.selenium.jenkins
         }
         stage('SonarQube analysis') {
