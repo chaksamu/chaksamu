@@ -5,7 +5,7 @@
   <artifactId>maven.testng.selenium.jenkins</artifactId>
   <version>0.0.4</version>
   <packaging>jar</packaging>
-  <name>DemoProject</name>  
+  <name>maven.testng.selenium.jenkins</name>  
        <properties>
         <sonar.sources>src/main/java</sonar.sources>
       </properties>
