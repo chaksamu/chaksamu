@@ -8,6 +8,7 @@
   <name>maven.testng.selenium.jenkins</name>  
        <properties>
         <sonar.sources>src/main/java</sonar.sources>
+        <sonar.projectKey>com.syniverse:maven.testng.selenium.jenkins</sonar.projectKey>
       </properties>
    <build>
     <pluginManagement>
