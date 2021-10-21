@@ -17,12 +17,18 @@ pipeline {
                 bat "mvn clean verify -f pom.xml"
             }                          //maven.testng.selenium.jenkins
         }
+        stage('Jacoco'){
+        	steps {
+        		jacoco()
+        	}
+        }
         stage('SonarQube analysis') {
             steps {
                 withSonarQubeEnv('sonar') {
                        bat "mvn sonar:sonar -f pom.xml"
                   }
             }
+           
         }
       }
 }
