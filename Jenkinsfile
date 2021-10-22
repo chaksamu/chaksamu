@@ -4,6 +4,7 @@ pipeline {
     tools {
         // Install the Maven version configured as 'M3' and add it to the path.
         maven 'maven-3.6.0'
+        jdk 'jdk-11.0.12'
       }
     stages {
         stage('Checkout') {
@@ -14,7 +15,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                bat 'mvn clean verify -f pom.xml'
+                bat 'mvn clean verify install -f pom.xml'
             }                          //maven.testng.selenium.jenkins
         }
         stage('Jacoco'){
@@ -28,13 +29,18 @@ pipeline {
                        bat 'mvn sonar:sonar -f pom.xml'
                   }
             }
-            def qg = waitForQualityGate()
-                        if (qg.status != 'OK'){
-                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                        }
-            post{
-                success{
-                    script{
+        }
+        stage('Wait for quality gate') {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                    // true = set pipeline to UNSTABLE, false = don't
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+            post { 
+                success {
+                    script {
                         nexusPublisher nexusInstanceId: 'maven.testng.selenium.jenkins', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: './target']], mavenCoordinate: [artifactId: 'maven.testng.selenium.jenkins', groupId: 'com.syniverse', packaging: 'jar', version: '0.0.4']]]
                     }
                 }
