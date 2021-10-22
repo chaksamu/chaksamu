@@ -28,10 +28,23 @@ pipeline {
                        bat 'mvn sonar:sonar -f pom.xml'
                   }
             }
-            post{
-                success{
-                    script{
-                        nexusPublisher nexusInstanceId: 'maven.testng.selenium.jenkins', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: './target']], mavenCoordinate: [artifactId: 'maven.testng.selenium.jenkins', groupId: 'com.syniverse', packaging: 'jar', version: '0.0.4']]]
+        }
+        stage('Wait for quality gate'){
+	    steps {
+    		    timeout(time: 1, unit: 'HOURS'){
+    		        script{
+    		            bat 'sleep 30'
+        		        def qg = waitForQualityGate()
+        		        if (qg.status != 'OK'){
+        		            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+        		        }
+    		        }
+    		    }
+	        }
+        post{
+            success{
+                script{
+                    nexusPublisher nexusInstanceId: 'maven.testng.selenium.jenkins', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: './target']], mavenCoordinate: [artifactId: 'maven.testng.selenium.jenkins', groupId: 'com.syniverse', packaging: 'jar', version: '0.0.4']]]
                     }
                 }
             }
