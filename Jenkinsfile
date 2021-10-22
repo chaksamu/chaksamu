@@ -39,7 +39,7 @@ pipeline {
         }
         stage ('Build deploy') {
             steps  {
-                bat 'mvn deploy -f pom.xml'
+                bat 'mvn deploy -f pom.xml -s settings.xml'
             }
         }
     }
