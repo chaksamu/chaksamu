@@ -28,21 +28,13 @@ pipeline {
                        bat 'mvn sonar:sonar -f pom.xml'
                   }
             }
-        }
-    }
-}
-post {
-    always {
-        echo 'Executed JenkinsPipe'
-    }
-    success {
-        stage('Mvn Deploy'){
-            steps {
-                bat 'mvn deploy'
+            post{
+                success{
+                    script{
+                        nexusPublisher nexusInstanceId: 'maven.testng.selenium.jenkins', nexusRepositoryId: 'maven-releases', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: './target']], mavenCoordinate: [artifactId: 'maven.testng.selenium.jenkins', groupId: 'com.syniverse', packaging: 'jar', version: '0.0.4']]]
+                    }
+                }
             }
         }
-    }
-    failure {
-        echo 'Build Failure'
     }
 }
