@@ -15,7 +15,7 @@ pipeline {
         stage('Sonarqube Analysis'){
             def scannerHome = tool 'scanner';
             withSonarQubeEnv('sonar'){
-                bat '${scannerHome}/bin/sonar-scanner -Dsonar.login=6cb3f98ba5e4a6d971ebdcc3b3f5d92e87821b50 -Dsonar.host.url=http://localhost:9000
+                bat '${scannerHome}/bin/sonar-scanner -Dsonar.login=6cb3f98ba5e4a6d971ebdcc3b3f5d92e87821b50 -Dsonar.host.url=http://localhost:9000'
             }
         }
     }
