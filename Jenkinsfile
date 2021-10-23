@@ -8,9 +8,9 @@ pipeline {
       }
     stages {
         stage ('Checkout') {
-            steps {
+            
                 git 'https://github.com/chaksamu/chaksamu.git'
-            }
+            
         }
         stage('Sonarqube Analysis'){
             def scannerHome = tool 'scanner';
