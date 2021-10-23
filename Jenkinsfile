@@ -12,34 +12,10 @@ pipeline {
                 git 'https://github.com/chaksamu/chaksamu.git'
             }
         }
-        stage ('Build Clean') {
-            steps  {
-                bat 'mvn clean -f pom.xml'
-            }
-        }
-        stage ('Build Test') {
-            steps  {
-                bat 'mvn test -f pom.xml'
-            }
-        }
-        stage ('Build Package') {
-            steps  {
-                bat 'mvn package -f pom.xml'
-            }
-        }
-        stage ('Build Verify') {
-            steps  {
-                bat 'mvn verify -f pom.xml'
-            }
-        }
-        stage ('Build Install') {
-            steps  {
-                bat 'mvn install -f pom.xml'
-            }
-        }
-        stage ('Build deploy') {
-            steps  {
-                bat 'mvn deploy -f pom.xml -s settings.xml'
+        stage('Sonarqube Analysis'){
+            def scannerHome = tool 'scanner';
+            withSonarQubeEnv('sonar'){
+                bat '${scannerHome}/bin/sonar-scanner -Dsonar.login=6cb3f98ba5e4a6d971ebdcc3b3f5d92e87821b50 -Dsonar.host.url=http://localhost:9000
             }
         }
     }
