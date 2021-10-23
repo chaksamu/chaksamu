@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.syniverse</groupId>
   <artifactId>maven.testng.selenium.jenkins</artifactId>
-  <version>0.0.5</version>
+  <version>0.0.6</version>
   <packaging>jar</packaging>
   <name>maven.testng.selenium.jenkins</name>  
        <properties>
