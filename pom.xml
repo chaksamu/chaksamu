@@ -81,8 +81,10 @@
 						</configuration>
 					</execution>
 				</executions>
-		</plugin>
-  <dependencies>
+			</plugin>
+		</pluginManagement>	
+	</build>
+	<dependencies>
   		<!-- https://mvnrepository.com/artifact/org.testng/testng -->
 		<dependency>
     		<groupId>org.testng</groupId>
