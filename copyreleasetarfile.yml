@@ -1,0 +1,11 @@
+---
+- name: Copy Release Tar file from Local Server to Remote Server
+  hosts: linux
+
+  #vars
+  tasks:
+    - name: Copying file
+      copy:
+        src: release.tar.gz
+        dest: /tmp/
+...
