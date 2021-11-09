@@ -1,6 +1,0 @@
-projectKey=maven.testng.selenium.jenkins
-serverUrl=http://localhost:9000
-serverVersion=9.1.0.47736
-dashboardUrl=http://localhost:9000/dashboard?id=maven.testng.selenium.jenkins
-ceTaskId=AXxuTs1UdGiZhRn0z2lG
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AXxuTs1UdGiZhRn0z2lG
