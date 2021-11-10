@@ -42,11 +42,6 @@
                     <artifactId>sonar-maven-plugin</artifactId>
                     <version>3.9.0.2155</version>
                 </plugin>
-                <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.7</version>
-                </plugin>
                 <!--<plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
@@ -88,9 +83,13 @@
                         </execution>
                     </executions>
                 </plugin>-->
+                </plugins>
+                 </pluginManagement>
+                 <plugins>
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.7</version>
                     <executions>
                         <execution>
                             <id>pre-unit-agent</id>
@@ -127,8 +126,7 @@
                         </execution>
                     </executions>
                 </plugin>
-            </plugins>
-        </pluginManagement>
+            </plugins>       
     </build>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.testng/testng -->
