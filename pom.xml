@@ -55,7 +55,7 @@
                         </execution>
                         <execution>
                             <id>default-report</id>
-                            <phase>prepare-package</phase>
+                            <!--<phase>prepare-package</phase>-->
                             <goals>
                                 <goal>report</goal>
                             </goals>
@@ -80,6 +80,17 @@
                                         </limits>
                                     </rule>
                                 </rules>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                            <configuration>
+                                <dataFile>target/jacoco.exec</dataFile>
+                                <outputDirectory>target/jacoco</outputDirectory>
                             </configuration>
                         </execution>
                     </executions>
