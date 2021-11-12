@@ -83,6 +83,19 @@
                             </configuration>
                         </execution>
                         <execution>
+                            <id>post-unit-agent</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                            <configuration>
+                                <append>true</append>
+                                <destFile>target/jacoco.exec</destFile>
+                                <propertyName>surefireArgLine</propertyName>
+                                <append>true</append>
+                           </configuration>
+                        </execution>
+                        <execution>
                             <id>report</id>
                             <phase>test</phase>
                             <goals>
