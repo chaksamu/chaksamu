@@ -12,7 +12,6 @@
         <sonar.projectKey>com.syniverse:maven.testng.selenium.jenkins</sonar.projectKey>
     </properties>
     <build>
-        <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -45,7 +44,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.0</version>
+                    <version>0.8.4</version>
                     <executions>
                         <execution>
                             <id>default-prepare-agent</id>
@@ -55,7 +54,7 @@
                         </execution>
                         <execution>
                             <id>default-report</id>
-                            <!--<phase>prepare-package</phase>-->
+                            <phase>prepare-package</phase>
                             <goals>
                                 <goal>report</goal>
                             </goals>
@@ -75,7 +74,7 @@
                                             <limit implementation="org.jacoco.report.check.Limit">
                                                 <counter>COMPLEXITY</counter>
                                                 <value>COVEREDRATIO</value>
-                                                <minimum>0.01</minimum>
+                                                <minimum>0.00</minimum>
                                             </limit>
                                         </limits>
                                     </rule>
@@ -109,7 +108,7 @@
                     </executions>
                 </plugin>
                 </plugins>
-                 </pluginManagement>
+               
                <!--  <plugins>
                 <plugin>
                     <groupId>org.jacoco</groupId>
