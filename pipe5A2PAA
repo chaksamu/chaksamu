@@ -1,0 +1,233 @@
+def getUser()
+{
+		wrap([$class: 'BuildUser']) {
+		script{
+		build_user_id = "${BUILD_USER_ID}"
+		build_user = "${BUILD_USER}"
+		echo "Jobs is triggered by - build_user_id:${build_user_id}      build_user:${build_user}"
+		}
+	}
+}
+
+def RunFailover(environment, serverGroup, playbookName, ansFuncUser)
+{
+	wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+	ansiblePlaybook(
+	playbook: "/apps/A2P_software/cfgmgmt/a2p_failover/trunk/${playbookName}",
+	inventory: "/apps/A2P_software/cfgmgmt/a2p_failover/trunk/hosts.d/${environment}/${environment}.ini",
+	limit: "${serverGroup}",
+    colorized: true,
+	become: true,
+	becomeUser: "${ansFuncUser}",
+    credentialsId: "${build_user_id}",
+	vaultCredentialsId: 'A2P_Prod_AnsibleVault',
+    hostKeyChecking: false,
+    extras: "--timeout=40",
+	extraVars: [
+	local_dir_owner: "${env.LOGNAME}",
+	a2pstate: "${params.A2P_STATE}",
+	wait_for_time: "${params.WAIT_FOR_SECONDS}",
+	hosts_envt: "${environment}",
+	user: "${us}",
+	password: "${ps}",
+	user_name: "${build_user}",
+	gslb_status_check: "${params.GSLB_STATUS}",
+	hosts_group_name: "${serverGroup}",
+	incident_num: "${params.INCIDENT_NUMBER}"
+	]
+   )
+ }
+}
+
+pipeline{
+	 agent none
+     options { 
+
+		timestamps(); 
+		timeout(time: 60, unit: 'MINUTES') 
+        buildDiscarder(logRotator(numToKeepStr: '30'))
+		}
+		parameters {
+		    booleanParam(defaultValue: false, description: 'Select for checking GSLB status', name: 'GSLB_STATUS')
+		    booleanParam(defaultValue: false, description: 'Select if breakfix CRQ is required', name: 'BREAKFIX_CRQ')
+		    string(defaultValue:'', description: 'Enter valid incident number if this is a beakfix CRQ', name: 'INCIDENT_NUMBER')
+			choice(choices: "select\nACTIVE_ACTIVE\nCHENNAI_ACTIVE_NOIDA_PASSIVE\nNOIDA_ACTIVE_CHENNAI_PASSIVE", description: 'Please select the state of a2p to switch to', name: 'A2P_STATE')
+		   
+		    
+		}
+		
+	stages{	
+	
+	    stage('Pre-Validation'){
+		agent {label 'dallas'}
+		    steps{
+                script{
+				sh 'cd /apps/A2P_software/cfgmgmt/a2p_failover/trunk'
+                   
+                   if(params.GSLB_STATUS == false)
+					{
+					if(A2P_STATE == "select")
+					{
+					 println("Select a valid option from A2P_STATE")
+					 sh 'exit 1'
+					}
+					}
+					
+					
+                   timeout(time: 120, unit: 'SECONDS')
+                    {
+                    env.VERIFY = input(id: 'TEXT',
+                    parameters: [[$class: 'StringParameterDefinition', defaultValue: '', 
+                    description:'Enter the text as "failover"', name:'TEXT']
+                    ])
+                    println(VERIFY);
+                    }
+					
+					if(VERIFY == "failover") 
+                    {
+                        println("Successful")
+                    }
+                    else if(VERIFY != "failover")
+                    {
+				        println("Entered Text"+VERIFY)
+                        println("Failed verification")
+                        sh 'exit 1'
+                    } 
+				
+			   }
+			  }
+			 }
+	
+	
+		stage ('Breakfix CRQ creation'){
+		agent {label 'dallas'}
+            steps{
+                script{
+                    
+                sh 'cd /apps/A2P_software/cfgmgmt/a2p_failover/trunk'
+                getUser()
+                    
+				   println(build_user_id)
+                   a ="${build_user_id}"
+                   withCredentials([usernamePassword(credentialsId: a, passwordVariable: 'C_PASS', usernameVariable: 'C_USER')]) {
+                   creds = "\nUser: ${C_USER}\nPassword: ${C_PASS}\n"
+                   ps="${C_PASS}"
+                   us="${C_USER}"
+                   println (ps + us)
+                   
+                   if(GSLB_STATUS == 'false')
+					{
+				   
+				   if(BREAKFIX_CRQ == 'true')
+                   {
+				   if(INCIDENT_NUMBER == "")
+					{
+					    println("Enter a valid incident number")
+					    sh 'exit 1'
+					}
+                	RunFailover(
+					'prod',
+					'datamigrator_dallas_noida',
+					'create_breakfix_crq.yml',
+					'syn_adm'
+					)
+                    } //if condition for BREAKFIX_CRQ=true closed
+					}  //if condition for GSLB_STATUS=false closed 
+                   } //withCredentials closed	
+                    
+                } //script closed
+            } //steps closed
+        } //stage closed
+
+        stage ('GSLB Failover'){
+		agent {label 'noida'}
+            steps{
+                script{
+                   sh 'cd /apps/A2P_software/cfgmgmt/a2p_failover/trunk'
+				   a ="${build_user_id}"
+                   withCredentials([usernamePassword(credentialsId: a, passwordVariable: 'C_PASS', usernameVariable: 'C_USER')]) {
+                   creds = "\nUser: ${C_USER}\nPassword: ${C_PASS}\n"
+					RunFailover(
+					'prod',
+					'datamigrator_dallas_noida',
+					'gslb_active_active.yml',
+					'syn_adm'
+					)
+				   } //withCredentials closed
+				} //script closed
+			}  //steps closed
+		} //stage closed
+		
+		stage ('Datamigrator Update'){
+		agent {label 'dallas'}
+            steps{
+                script{
+                   sh 'cd /apps/A2P_software/cfgmgmt/a2p_failover/trunk'
+				   a ="${build_user_id}"
+                   withCredentials([usernamePassword(credentialsId: a, passwordVariable: 'C_PASS', usernameVariable: 'C_USER')]) {
+                   creds = "\nUser: ${C_USER}\nPassword: ${C_PASS}\n"
+				   
+				   if(A2P_STATE == "CHENNAI_ACTIVE_NOIDA_PASSIVE")
+				   {
+					
+					RunFailover(
+					'prod',
+					'datamigrator_dallas_noida',
+					'datamigrator_inactive.yml',
+					'syn_adm'
+					)
+					
+					RunFailover(
+					'prod',
+					'datamigrator_dallas_chennai',
+					'datamigrator_active.yml',
+					'syn_adm'
+					)
+					
+					} //if ends
+					else if(A2P_STATE == "NOIDA_ACTIVE_CHENNAI_PASSIVE")
+					{
+					
+					RunFailover(
+					'prod',
+					'datamigrator_dallas_chennai',
+					'datamigrator_inactive.yml',
+					'syn_adm'
+					)
+					
+					RunFailover(
+					'prod',
+					'datamigrator_dallas_noida',
+					'datamigrator_active.yml',
+					'syn_adm'
+					)
+					
+					} //else if ends
+					else if(A2P_STATE == "ACTIVE_ACTIVE")
+					{
+					RunFailover(
+					'prod',
+					'datamigrator_dallas_chennai',
+					'datamigrator_shared.yml',
+					'syn_adm'
+					)
+					
+					RunFailover(
+					'prod',
+					'datamigrator_dallas_noida',
+					'datamigrator_shared.yml',
+					'syn_adm'
+					)
+					
+					}//else if ends
+					
+					
+					
+				   } //withCredentials closed
+				} //script closed
+			}  //steps closed
+		} //stage closed
+		
+		
+	} //stages closed
+} //pipeline closed
