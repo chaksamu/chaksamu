@@ -17,6 +17,11 @@ pipeline {
                 bat "echo 'Hello'"
             }
         }
+                stage('Build') {
+            steps {
+                bat 'mvn clean verify install -f pom.xml'
+            }                          //maven.testng.selenium.jenkins
+        }
         
     }
 }
