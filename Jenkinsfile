@@ -12,12 +12,12 @@ pipeline {
                 git 'https://github.com/chaksamu/chaksamu.git' 
                 }
         }
-        stage('Build'){
+        stage('Test'){
             steps{
                 bat "echo 'Hello'"
             }
         }
-                stage('Build') {
+        stage('Build') {
             steps {
                 bat 'mvn clean verify install -f pom.xml'
             }                          //maven.testng.selenium.jenkins
