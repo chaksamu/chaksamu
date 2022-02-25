@@ -17,6 +17,6 @@ pipeline {
                 bat "echo 'Hello'"
             }
         }
-        }
+        
     }
 }
